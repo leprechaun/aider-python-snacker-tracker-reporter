@@ -25,14 +25,14 @@ jobs:
       run: |
         poetry install
     
-    - name: Run tests
+    - name: Run tests with coverage
       run: |
-        poetry run pytest
+        poetry run pytest --cov=app --cov-report=xml
     
     - name: Run tests (excluding fuzz tests)
       run: |
-        poetry run pytest -v -m "not fuzz"
+        poetry run pytest -v -m "not fuzz" --cov=app --cov-report=term-missing
     
     - name: Run fuzz tests (optional)
       run: |
-        poetry run pytest -v -m "fuzz"
+        poetry run pytest -v -m "fuzz" --cov=app --cov-report=term-missing
