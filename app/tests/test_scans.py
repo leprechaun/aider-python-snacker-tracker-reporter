@@ -75,4 +75,9 @@ def test_create_and_list_multiple_scans():
     # List scans and verify both scans are returned
     list_response = client.get("/v1/scans/")
     assert list_response.status_code == 200
-    assert set(list_response.json()) == {scan_data1, scan_data2}
+    
+    # Sort the lists by code to compare them
+    sorted_list_response = sorted(list_response.json(), key=lambda x: x['code'])
+    sorted_expected = sorted([scan_data1, scan_data2], key=lambda x: x['code'])
+    
+    assert sorted_list_response == sorted_expected
