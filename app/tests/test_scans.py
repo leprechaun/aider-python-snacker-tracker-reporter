@@ -6,3 +6,9 @@ client = TestClient(app)
 def test_create_scan():
     response = client.post("/v1/scans/")
     assert response.status_code == 201
+
+def test_create_scan_returns_request_body():
+    scan_data = {"upc": "123456789", "quantity": 5}
+    response = client.post("/v1/scans/", json=scan_data)
+    assert response.status_code == 201
+    assert response.json() == scan_data
