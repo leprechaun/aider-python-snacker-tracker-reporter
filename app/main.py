@@ -10,6 +10,8 @@ class ScanCreate(BaseModel):
     def validate_ascii_code(cls, v):
         if not v.isascii():
             raise ValueError("Code must contain only ASCII characters")
+        if not all(32 <= ord(char) <= 126 for char in v):
+            raise ValueError("Code must contain only printable ASCII characters")
         return v
 
 # In-memory storage for scans
