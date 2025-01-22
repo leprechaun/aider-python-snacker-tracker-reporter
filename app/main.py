@@ -15,6 +15,18 @@ class ScanCreate(BaseModel):
             raise ValueError("Code must contain only printable ASCII characters")
         return v
 
+class CodeCreate(BaseModel):
+    code: str = Field(..., description="Code identifier")
+
+    @field_validator('code')
+    @classmethod
+    def validate_ascii_code(cls, v):
+        if not v.isascii():
+            raise ValueError("Code must contain only ASCII characters")
+        if not all(32 <= ord(char) <= 126 for char in v):
+            raise ValueError("Code must contain only printable ASCII characters")
+        return v
+
 # In-memory storage for scans
 scans = []
 
@@ -37,5 +49,5 @@ def list_codes():
     return []
 
 @app.post("/v1/codes/", status_code=201)
-def create_code(code_data: ScanCreate):
+def create_code(code_data: CodeCreate):
     return code_data.model_dump()
