@@ -31,3 +31,7 @@ def create_scan(scan_data: ScanCreate):
 @app.get("/v1/scans/", status_code=200)
 def list_scans():
     return scans
+
+@app.get("/v1/codes/", status_code=200)
+def list_codes():
+    return []
