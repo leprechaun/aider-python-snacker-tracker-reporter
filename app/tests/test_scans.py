@@ -93,3 +93,13 @@ def test_create_scan_rejects_non_printable_ascii():
     non_printable_scan_data = {"code": "12345\x00\x01\x02"}
     response = client.post("/v1/scans/", json=non_printable_scan_data)
     assert response.status_code == 422
+
+def test_create_scan_rejects_newline_characters():
+    # Test with various newline characters
+    newline_scan_data_1 = {"code": "12345\n67890"}
+    newline_scan_data_2 = {"code": "12345\r67890"}
+    newline_scan_data_3 = {"code": "12345\r\n67890"}
+    
+    for newline_scan_data in [newline_scan_data_1, newline_scan_data_2, newline_scan_data_3]:
+        response = client.post("/v1/scans/", json=newline_scan_data)
+        assert response.status_code == 422
