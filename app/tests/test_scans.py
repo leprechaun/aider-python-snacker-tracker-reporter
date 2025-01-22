@@ -46,9 +46,11 @@ def test_get_scans_returns_empty_list():
     assert response.status_code == 200
     assert response.json() == []
 
+import uuid
+
 def test_create_and_list_scan():
-    # First, create a scan
-    scan_data = {"code": "123456789"}
+    # First, create a scan with a random code
+    scan_data = {"code": str(uuid.uuid4())}
     create_response = client.post("/v1/scans/", json=scan_data)
     assert create_response.status_code == 201
 
