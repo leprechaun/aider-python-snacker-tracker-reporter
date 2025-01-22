@@ -13,6 +13,7 @@ sqlalchemy = "^2.0.37"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
+hypothesis = "^6.82.1"
 
 [build-system]
 requires = ["poetry-core"]
