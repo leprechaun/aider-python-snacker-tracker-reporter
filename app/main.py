@@ -35,3 +35,7 @@ def list_scans():
 @app.get("/v1/codes/", status_code=200)
 def list_codes():
     return []
+
+@app.post("/v1/codes/", status_code=201)
+def create_code(code_data: ScanCreate):
+    return code_data.model_dump()
