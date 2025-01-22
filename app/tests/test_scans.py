@@ -42,3 +42,14 @@ def test_get_scans_returns_empty_list():
     response = client.get("/v1/scans/")
     assert response.status_code == 200
     assert response.json() == []
+
+def test_create_and_list_scan():
+    # First, create a scan
+    scan_data = {"code": "123456789"}
+    create_response = client.post("/v1/scans/", json=scan_data)
+    assert create_response.status_code == 201
+
+    # Then, list scans and verify the created scan is returned
+    list_response = client.get("/v1/scans/")
+    assert list_response.status_code == 200
+    assert list_response.json() == [scan_data]
