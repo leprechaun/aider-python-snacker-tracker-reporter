@@ -103,3 +103,14 @@ def test_create_scan_rejects_newline_characters():
     for newline_scan_data in [newline_scan_data_1, newline_scan_data_2, newline_scan_data_3]:
         response = client.post("/v1/scans/", json=newline_scan_data)
         assert response.status_code == 422
+
+def test_create_scan_accepts_url_as_code():
+    # Test with various valid URLs
+    url_scan_data_1 = {"code": "https://example.com"}
+    url_scan_data_2 = {"code": "http://www.example.org/path?query=value"}
+    url_scan_data_3 = {"code": "https://subdomain.example.co.uk/page"}
+    
+    for url_scan_data in [url_scan_data_1, url_scan_data_2, url_scan_data_3]:
+        response = client.post("/v1/scans/", json=url_scan_data)
+        assert response.status_code == 201
+        assert response.json() == url_scan_data
