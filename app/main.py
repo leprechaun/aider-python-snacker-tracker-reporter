@@ -53,7 +53,8 @@ def list_scans(db: Session = Depends(get_db)):
 
 @app.get("/v1/codes/", status_code=200)
 def list_codes(db: Session = Depends(get_db)):
-    return []
+    codes = db.query(DBCode).all()
+    return [{"code": code.code, "name": code.name, "url": code.url} for code in codes]
 
 @app.post("/v1/codes/", status_code=201)
 def create_code(code_data: CodeCreate, db: Session = Depends(get_db)):

@@ -89,3 +89,39 @@ def test_create_code_with_name_and_url():
     assert response.json()['name'] == "Test Code"
     assert 'url' in response.json()
     assert response.json()['url'] == "https://example.com"
+
+def test_create_and_list_code():
+    # First, create a code
+    code_data = {"code": "unique_test_code"}
+    create_response = client.post("/v1/codes/", json=code_data)
+    assert create_response.status_code == 201
+
+    # Then, list codes and verify the created code is returned
+    list_response = client.get("/v1/codes/")
+    assert list_response.status_code == 200
+    
+    # Check that the created code is in the list
+    codes = list_response.json()
+    assert any(code['code'] == code_data['code'] for code in codes)
+
+def test_create_and_list_multiple_codes():
+    # Create multiple codes
+    code_data1 = {"code": "code1", "name": "Name 1", "url": "https://example1.com"}
+    code_data2 = {"code": "code2", "name": "Name 2", "url": "https://example2.com"}
+    
+    # POST first code
+    create_response1 = client.post("/v1/codes/", json=code_data1)
+    assert create_response1.status_code == 201
+    
+    # POST second code
+    create_response2 = client.post("/v1/codes/", json=code_data2)
+    assert create_response2.status_code == 201
+
+    # List codes and verify both codes are returned
+    list_response = client.get("/v1/codes/")
+    assert list_response.status_code == 200
+    
+    # Check that both codes are in the list
+    codes = list_response.json()
+    assert any(code['code'] == code_data1['code'] for code in codes)
+    assert any(code['code'] == code_data2['code'] for code in codes)
