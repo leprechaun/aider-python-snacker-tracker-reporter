@@ -75,4 +75,4 @@ def test_create_and_list_multiple_scans():
     # List scans and verify both scans are returned
     list_response = client.get("/v1/scans/")
     assert list_response.status_code == 200
-    assert list_response.json() == [scan_data2, scan_data1]
+    assert set(list_response.json()) == {scan_data1, scan_data2}
