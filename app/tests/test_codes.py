@@ -23,3 +23,13 @@ def test_create_code_returns_same_data_structure():
     assert isinstance(response.json(), dict)
     assert list(response.json().keys()) == list(code_data.keys())
     assert isinstance(response.json()['code'], str)
+
+def test_create_code_with_optional_name():
+    code_data = {"code": "123456789", "name": "Test Code"}
+    response = client.post("/v1/codes/", json=code_data)
+    assert response.status_code == 201
+    assert response.json() == code_data
+    
+    # Verify the optional name is correctly handled
+    assert 'name' in response.json()
+    assert response.json()['name'] == "Test Code"
