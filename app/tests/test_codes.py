@@ -34,11 +34,14 @@ def test_create_code_with_optional_name():
     code_data = {"code": "123456789", "name": "Test Code"}
     response = client.post("/v1/codes/", json=code_data)
     assert response.status_code == 201
-    assert response.json() == code_data
     
-    # Verify the optional name is correctly handled
-    assert 'name' in response.json()
+    # Verify the response contains the code and name
+    assert response.json()['code'] == code_data['code']
     assert response.json()['name'] == "Test Code"
+    
+    # Verify the url is present and None
+    assert 'url' in response.json()
+    assert response.json()['url'] is None
 
 def test_create_code_with_optional_url():
     code_data = {"code": "123456789", "url": "https://example.com"}
