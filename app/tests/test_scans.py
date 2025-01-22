@@ -12,3 +12,8 @@ def test_create_scan_returns_request_body():
     response = client.post("/v1/scans/", json=scan_data)
     assert response.status_code == 201
     assert response.json() == scan_data
+
+def test_create_scan_rejects_invalid_data_structure():
+    invalid_scan_data = {"invalid_key": "123456789"}
+    response = client.post("/v1/scans/", json=invalid_scan_data)
+    assert response.status_code == 422
