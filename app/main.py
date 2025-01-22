@@ -18,6 +18,7 @@ class ScanCreate(BaseModel):
 class CodeCreate(BaseModel):
     code: str = Field(..., description="Code identifier")
     name: str | None = Field(None, description="Optional name for the code")
+    url: str | None = Field(None, description="Optional URL for the code")
 
     @field_validator('code')
     @classmethod
