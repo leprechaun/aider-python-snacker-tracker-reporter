@@ -1,10 +1,13 @@
 from fastapi.testclient import TestClient
-from ..main import app, reset_scans
+from ..main import app
+from ..database import get_db, init_db, SessionLocal
 
 client = TestClient(app)
 
 def setup_function():
-    reset_scans()
+    db = SessionLocal()
+    reset_scans(db)
+    db.close()
 
 def test_create_scan_requires_body():
     response = client.post("/v1/scans/")
