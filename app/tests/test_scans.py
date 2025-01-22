@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 from ..main import app
+from ..main import reset_scans
 from ..database import get_db, init_db, SessionLocal
 
 client = TestClient(app)
