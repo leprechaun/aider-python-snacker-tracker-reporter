@@ -9,6 +9,10 @@ class ScanCreate(BaseModel):
 # In-memory storage for scans
 scans = []
 
+def reset_scans():
+    global scans
+    scans = []
+
 @app.post("/v1/scans/", status_code=201)
 def create_scan(scan_data: ScanCreate):
     scan = scan_data.model_dump()

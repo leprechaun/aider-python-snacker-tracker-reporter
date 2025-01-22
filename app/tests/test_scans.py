@@ -1,7 +1,10 @@
 from fastapi.testclient import TestClient
-from ..main import app
+from ..main import app, reset_scans
 
 client = TestClient(app)
+
+def setup_function():
+    reset_scans()
 
 def test_create_scan_requires_body():
     response = client.post("/v1/scans/")
