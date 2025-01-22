@@ -38,6 +38,10 @@ def reset_scans(db: Session):
     db.query(DBScan).delete()
     db.commit()
 
+def reset_codes(db: Session):
+    db.query(DBCode).delete()
+    db.commit()
+
 @app.post("/v1/scans/", status_code=201)
 def create_scan(scan_data: ScanCreate, db: Session = Depends(get_db)):
     db_scan = DBScan(code=scan_data.code)

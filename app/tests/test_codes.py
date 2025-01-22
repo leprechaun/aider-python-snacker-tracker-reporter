@@ -1,7 +1,13 @@
 from fastapi.testclient import TestClient
-from ..main import app
+from ..main import app, reset_codes
+from ..database import get_db, init_db, SessionLocal
 
 client = TestClient(app)
+
+def setup_function():
+    db = SessionLocal()
+    reset_codes(db)
+    db.close()
 
 def test_get_codes_returns_empty_list():
     response = client.get("/v1/codes/")
