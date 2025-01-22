@@ -3,9 +3,9 @@ from ..main import app
 
 client = TestClient(app)
 
-def test_create_scan():
+def test_create_scan_requires_body():
     response = client.post("/v1/scans/")
-    assert response.status_code == 201
+    assert response.status_code == 422
 
 def test_create_scan_returns_request_body():
     scan_data = {"code": "123456789"}
