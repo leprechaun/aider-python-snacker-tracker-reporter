@@ -58,3 +58,21 @@ def test_create_and_list_scan():
     list_response = client.get("/v1/scans/")
     assert list_response.status_code == 200
     assert list_response.json() == [scan_data]
+
+def test_create_and_list_multiple_scans():
+    # Create multiple scans with random codes
+    scan_data1 = {"code": str(uuid.uuid4())}
+    scan_data2 = {"code": str(uuid.uuid4())}
+    
+    # POST first scan
+    create_response1 = client.post("/v1/scans/", json=scan_data1)
+    assert create_response1.status_code == 201
+    
+    # POST second scan
+    create_response2 = client.post("/v1/scans/", json=scan_data2)
+    assert create_response2.status_code == 201
+
+    # List scans and verify both scans are returned
+    list_response = client.get("/v1/scans/")
+    assert list_response.status_code == 200
+    assert list_response.json() == [scan_data1, scan_data2]
