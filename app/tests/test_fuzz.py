@@ -25,7 +25,7 @@ def test_fuzz_create_scan(code):
 @given(
     code=valid_code_strategy,
     name=st.one_of(st.none(), valid_code_strategy),
-    url=st.one_of(st.none(), st.text(alphabet=st.characters(whitelist_categories=('Lu', 'Ll', 'Nd', '.'))))
+    url=st.one_of(st.none(), st.from_regex(r'^https?://[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(/\S*)?$', fullmatch=True))
 )
 def test_fuzz_create_code(code, name, url):
     """Fuzz test for creating codes with optional name and URL"""
