@@ -27,7 +27,7 @@ jobs:
     
     - name: Run tests with coverage
       run: |
-        poetry run pytest --cov=app --cov-report=xml
+        poetry run pytest --cov=app --cov-report=xml --cov-report=html
     
     - name: Run tests (excluding fuzz tests)
       run: |
@@ -36,3 +36,12 @@ jobs:
     - name: Run fuzz tests (optional)
       run: |
         poetry run pytest -v -m "fuzz" --cov=app --cov-report=term-missing
+    
+    - name: Upload coverage reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-reports
+        path: |
+          coverage.xml
+          htmlcov
+        retention-days: 30
