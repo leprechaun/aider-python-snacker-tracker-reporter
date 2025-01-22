@@ -1,10 +1,16 @@
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 app = FastAPI()
 
 class ScanCreate(BaseModel):
     code: str = Field(..., description="Scan code")
+
+    @validator('code')
+    def validate_ascii_code(cls, v):
+        if not v.isascii():
+            raise ValueError("Code must contain only ASCII characters")
+        return v
 
 # In-memory storage for scans
 scans = []
