@@ -81,3 +81,9 @@ def test_create_and_list_multiple_scans():
     sorted_expected = sorted([scan_data1, scan_data2], key=lambda x: x['code'])
     
     assert sorted_list_response == sorted_expected
+
+def test_create_scan_rejects_non_ascii_code():
+    # Test with non-ASCII characters
+    non_ascii_scan_data = {"code": "123456789❌"}
+    response = client.post("/v1/scans/", json=non_ascii_scan_data)
+    assert response.status_code == 422
