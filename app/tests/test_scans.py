@@ -32,3 +32,8 @@ def test_create_scan_rejects_numeric_code():
     invalid_scan_data = {"code": 123456789}
     response = client.post("/v1/scans/", json=invalid_scan_data)
     assert response.status_code == 422
+
+def test_create_scan_rejects_object_code():
+    invalid_scan_data = {"code": {"key": "value"}}
+    response = client.post("/v1/scans/", json=invalid_scan_data)
+    assert response.status_code == 422
