@@ -30,6 +30,28 @@ def test_create_code_returns_same_data_structure():
     assert 'name' in response.json()
     assert response.json()['name'] is None
 
+def test_create_code_rejects_non_ascii_code():
+    # Test with non-ASCII characters
+    non_ascii_code_data = {"code": "123456789❌"}
+    response = client.post("/v1/codes/", json=non_ascii_code_data)
+    assert response.status_code == 422
+
+def test_create_code_rejects_non_printable_ascii():
+    # Test with non-printable ASCII characters
+    non_printable_code_data = {"code": "12345\x00\x01\x02"}
+    response = client.post("/v1/codes/", json=non_printable_code_data)
+    assert response.status_code == 422
+
+def test_create_code_rejects_newline_characters():
+    # Test with various newline characters
+    newline_code_data_1 = {"code": "12345\n67890"}
+    newline_code_data_2 = {"code": "12345\r67890"}
+    newline_code_data_3 = {"code": "12345\r\n67890"}
+    
+    for newline_code_data in [newline_code_data_1, newline_code_data_2, newline_code_data_3]:
+        response = client.post("/v1/codes/", json=newline_code_data)
+        assert response.status_code == 422
+
 def test_create_code_with_optional_name():
     code_data = {"code": "123456789", "name": "Test Code"}
     response = client.post("/v1/codes/", json=code_data)
