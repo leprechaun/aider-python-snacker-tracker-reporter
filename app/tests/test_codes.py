@@ -13,3 +13,13 @@ def test_create_code_returns_request_body():
     response = client.post("/v1/codes/", json=code_data)
     assert response.status_code == 201
     assert response.json() == code_data
+
+def test_create_code_returns_same_data_structure():
+    code_data = {"code": "123456789"}
+    response = client.post("/v1/codes/", json=code_data)
+    assert response.status_code == 201
+    
+    # Check that the response has the same keys and types as the request
+    assert isinstance(response.json(), dict)
+    assert list(response.json().keys()) == list(code_data.keys())
+    assert isinstance(response.json()['code'], str)
