@@ -14,6 +14,9 @@ valid_code_strategy = st.text(
     max_size=50
 ).filter(lambda x: x.isascii() and all(32 <= ord(char) <= 126 for char in x))
 
+import pytest
+
+@pytest.mark.fuzz
 @given(code=valid_code_strategy)
 def test_fuzz_create_scan(code):
     """Fuzz test for creating scans with various valid codes"""

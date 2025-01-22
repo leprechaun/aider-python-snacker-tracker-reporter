@@ -29,6 +29,10 @@ jobs:
       run: |
         poetry run pytest
     
-    - name: Run fuzz tests
+    - name: Run tests (excluding fuzz tests)
       run: |
-        poetry run pytest app/tests/test_fuzz.py
+        poetry run pytest -v -m "not fuzz"
+    
+    - name: Run fuzz tests (optional)
+      run: |
+        poetry run pytest -v -m "fuzz"
