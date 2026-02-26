@@ -30,7 +30,7 @@ jobs:
         poetry run pytest -vv -m "not fuzz" --cov=app --cov-report=term-missing --cov-report=html
 
     - name: Upload coverage reports
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: coverage-reports
         path: |
@@ -43,7 +43,7 @@ jobs:
         poetry run pytest -vv --cov=app --cov-report=term-missing --cov-report=html
 
     - name: Upload coverage reports
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: coverage-reports-with-fuzz
         path: |
